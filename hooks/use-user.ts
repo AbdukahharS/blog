@@ -5,7 +5,7 @@ import { User } from 'firebase/auth'
 
 export function useUser() {
   const [user, setUser] = useState<User | null>()
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(true)
 
   // Listen for changes to the user session
   useEffect(() => {

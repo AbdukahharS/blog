@@ -4,7 +4,8 @@
     left: 0;
     width: 15px;
     height: 15px;
-    background-color: #8419d4;
+    /* background-color: #8419d4; */
+    background: hsl(var(--primary));
     border-radius: 50%;
     pointer-events: none;
     transition: transform 0.1s ease-in-out, width 0.1s ease, height 0.1s ease opacity 0.1s ease;
