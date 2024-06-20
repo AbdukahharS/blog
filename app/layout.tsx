@@ -25,7 +25,7 @@ export default async function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang='en' suppressHydrationWarning>
+    <html lang='en'>
       <body className={inter.className}>
         <ThemeProvider
           attribute='class'
@@ -34,9 +34,11 @@ export default async function RootLayout({
           disableTransitionOnChange
           storageKey='blog-theme'
         >
-          <CustomCursor />
-          <Header />
-          {children}
+          <div className='bg-background min-h-[100vh]'>
+            <CustomCursor />
+            <Header />
+            {children}
+          </div>
         </ThemeProvider>
       </body>
     </html>

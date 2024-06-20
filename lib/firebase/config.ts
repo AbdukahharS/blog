@@ -1,5 +1,6 @@
 import { getAuth } from 'firebase/auth'
 import { initializeApp, getApps } from 'firebase/app'
+import { getFirestore } from 'firebase/firestore'
 
 // Load .env variables
 const firebaseConfig = {
@@ -15,3 +16,5 @@ const firebaseApp =
   getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0]
 
 export const firebaseAuth = getAuth(firebaseApp)
+
+export const db = getFirestore(firebaseApp)
