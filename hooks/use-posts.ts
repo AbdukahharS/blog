@@ -1,11 +1,11 @@
 import { useEffect } from 'react'
 import { create } from 'zustand'
 import {
-  DocumentData,
   collection,
   query,
   where,
   getDocs,
+  Timestamp,
 } from 'firebase/firestore'
 
 import { db } from '@/lib/firebase/config'
@@ -13,18 +13,28 @@ import { db } from '@/lib/firebase/config'
 enum Filters {
   all = 'all',
   news = 'news',
-  tutorials = 'tutorials',
+  tutorial = 'tutorial',
+}
+
+export interface Post {
+  id: string
+  title: string
+  description: string
+  type: Filters
+  isPublished: boolean
+  createdAt: Timestamp
+  readTime: number
 }
 
 type PostsStoreType = {
   loading: boolean
-  posts: DocumentData[]
+  posts: Post[]
   filter: Filters
   filterCount: {
     [key: string]: number
   }
   setLoading: (loading: boolean) => void
-  setPosts: (posts: DocumentData[]) => void
+  setPosts: (posts: Post[]) => void
   setFilterCount: (filterCount: { [key: string]: number }) => void
   setFilter: (filter: string) => void
 }
@@ -36,7 +46,7 @@ export const usePostsStore = create<PostsStoreType>((set) => ({
   filterCount: {
     all: 0,
     news: 0,
-    tutorials: 0,
+    tutorial: 0,
   },
   setLoading: (loading) => {
     set({ loading })
@@ -60,9 +70,10 @@ export const usePosts = () => {
       const q = query(collection(db, 'posts'), where('isPublished', '==', true))
 
       const querySnapshot = await getDocs(q)
-      const posts: DocumentData[] = []
+      const posts: Post[] = []
       querySnapshot.forEach((doc) => {
-        posts.push({ id: doc.id, ...doc.data() })
+        posts.push({ id: doc.id, ...doc.data() } as Post)
+        posts.push({ id: doc.id, ...doc.data() } as Post)
       })
       setPosts(posts)
       setLoading(false)
@@ -77,11 +88,11 @@ export const usePosts = () => {
       const count = {
         all: 0,
         news: 0,
-        tutorials: 0,
+        tutorial: 0,
       }
 
       for (const post of posts) {
-        const type = post.type as 'news' | 'tutorials'
+        const type = post.type as 'news' | 'tutorial'
         count[type]++
         count.all++
       }
@@ -91,5 +102,5 @@ export const usePosts = () => {
     }
 
     if (posts.length > 0) updateFilterCount()
-  }, [posts, setFilterCount])
+  }, [posts, setFilterCount, setLoading])
 }
