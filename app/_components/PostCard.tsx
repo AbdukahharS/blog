@@ -2,13 +2,14 @@
 
 import Image from 'next/image'
 import { format } from 'date-fns'
+import Link from 'next/link'
+import { Dot } from 'lucide-react'
 
 import { Badge } from '@/components/ui/badge'
 import { Post, usePostsStore } from '@/hooks/use-posts'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
-import { Dot } from 'lucide-react'
-import Link from 'next/link'
+import { Skeleton } from '@/components/ui/skeleton'
 
 export default function PostCard({ post, i }: { post: Post; i: number }) {
   const { setFilter } = usePostsStore()
@@ -58,5 +59,11 @@ export default function PostCard({ post, i }: { post: Post; i: number }) {
         </div>
       </Link>
     </div>
+  )
+}
+
+PostCard.Skeleton = function PostCardSkeleton() {
+  return (
+    <Skeleton className='relative h-[500px] lg:first:col-span-2 rounded-3xl bg-slate-400' />
   )
 }

@@ -24,6 +24,7 @@ export interface Post {
   isPublished: boolean
   createdAt: Timestamp
   readTime: number
+  banner: string
 }
 
 type PostsStoreType = {
@@ -41,7 +42,7 @@ type PostsStoreType = {
 
 export const usePostsStore = create<PostsStoreType>((set) => ({
   posts: [],
-  loading: false,
+  loading: true,
   filter: Filters.all,
   filterCount: {
     all: 0,
