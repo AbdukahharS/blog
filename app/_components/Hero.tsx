@@ -1,6 +1,7 @@
 import Image from 'next/image'
 
 import { Filters } from './Filters'
+import { Search } from './Search'
 
 export const Hero = () => {
   return (
@@ -13,7 +14,10 @@ export const Hero = () => {
           <Image src='/hero.svg' alt='Hello World code' fill loading='lazy' />
         </div>
       </div>
-      <Filters />
+      <div className='flex flex-col md:flex-row gap-6 justify-between items-center px-6 lg:px-12 mt-8 md:mt-0'>
+        <Filters />
+        <Search />
+      </div>
     </div>
   )
 }

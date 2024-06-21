@@ -11,6 +11,7 @@ const spinnerVariants = cva('text-muted-foreground animate-spin', {
       sm: 'w-2 h-2',
       lg: 'w-6 h-6',
       icon: 'w-10 h-10',
+      xl: 'w-14 h-14',
     },
   },
   defaultVariants: {

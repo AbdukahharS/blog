@@ -64,6 +64,11 @@ export default function PostCard({ post, i }: { post: Post; i: number }) {
 
 PostCard.Skeleton = function PostCardSkeleton() {
   return (
-    <Skeleton className='relative h-[500px] lg:first:col-span-2 rounded-3xl bg-slate-400' />
+    <Skeleton className='relative h-[500px] lg:first:col-span-2 rounded-3xl bg-slate-400'>
+      <div className='z-10 absolute left-5 bottom-5 w-[calc(100%-40px)]'>
+        <div className='px-4 py-3 bg-secondary rounded-3xl rounded-es-none h-32 w-full' />
+        <div className='px-4 relative pb-3 pt-1 bg-secondary rounded-b-3xl w-52 h-10 flex items-center max-w-[calc(100%-40px)] after:absolute after:right-0 after:h-1/3 after:bg-transparent after:block after:w-4 after:top-0 after:translate-x-4 after:translate-y-[-10px] after:rounded-ss-3xl after:border-t-[10px] after:border-l-[10px] after:border-accent after:box-content' />
+      </div>
+    </Skeleton>
   )
 }

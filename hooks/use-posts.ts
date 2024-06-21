@@ -31,6 +31,7 @@ type PostsStoreType = {
   loading: boolean
   posts: Post[]
   filter: Filters
+  search: string
   filterCount: {
     [key: string]: number
   }
@@ -38,12 +39,14 @@ type PostsStoreType = {
   setPosts: (posts: Post[]) => void
   setFilterCount: (filterCount: { [key: string]: number }) => void
   setFilter: (filter: string) => void
+  setSearch: (search: string) => void
 }
 
 export const usePostsStore = create<PostsStoreType>((set) => ({
   posts: [],
   loading: true,
   filter: Filters.all,
+  search: '',
   filterCount: {
     all: 0,
     news: 0,
@@ -61,6 +64,9 @@ export const usePostsStore = create<PostsStoreType>((set) => ({
   setFilter: (filter: string) => {
     set({ filter: filter as Filters })
   },
+  setSearch: (search: string) => {
+    set({ search })
+  },
 }))
 
 export const usePosts = () => {
@@ -73,8 +79,8 @@ export const usePosts = () => {
       const querySnapshot = await getDocs(q)
       const posts: Post[] = []
       querySnapshot.forEach((doc) => {
-        posts.push({ id: doc.id, ...doc.data() } as Post)
-        posts.push({ id: doc.id, ...doc.data() } as Post)
+        posts.push({ id: doc.id, ...doc.data(), description: '' } as Post)
+        posts.push({ id: doc.id, ...doc.data(), description: '' } as Post)
       })
       setPosts(posts)
       setLoading(false)
