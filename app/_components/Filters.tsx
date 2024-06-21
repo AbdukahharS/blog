@@ -17,7 +17,7 @@ export const Filters = () => {
           <div
             className={cn(
               'rounded-3xl flex items-center px-3 py-1 sm:px-4 sm:py-2 cursor-pointer text-sm sm:text-base',
-              filter === key ? 'bg-primary' : 'bg-accent'
+              filter === key ? 'bg-primary text-white' : 'bg-accent'
             )}
             onClick={() => setFilter(key)}
             key={key}

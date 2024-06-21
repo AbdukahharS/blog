@@ -28,7 +28,7 @@ export default function Posts() {
   }, [search, posts, filter])
 
   return (
-    <div className='bg-accent mt-10 rounded-t-[50px] flex justify-center flex-1'>
+    <div className='bg-foreground/80 dark:bg-accent mt-10 rounded-t-[50px] flex justify-center flex-1'>
       {!loading && filteredPosts.length === 0 ? (
         <div>
           <Image src='/no-items.svg' alt='No items' width={300} height={300} />

@@ -12,12 +12,12 @@ export const Search = () => {
   const { setSearch, loading } = usePostsStore()
 
   return (
-    <div className='w-full px-4 md:w-fit'>
+    <div className='w-full lg:px-4 md:w-fit'>
       <h3 className='opacity-80'>SEARCH BLOG</h3>
       <div className='relative mt-2 w-full'>
         <Input
           disabled={loading}
-          className='pl-9 w-full min-w-80 rounded-xl text-md'
+          className='pl-9 w-full lg:min-w-80 rounded-xl text-md'
           placeholder='I want to read about...'
           onFocus={() => setFocus(true)}
           onBlur={() => setFocus(false)}
