@@ -13,7 +13,7 @@ import { Logo } from '@/components/Logo'
 
 export function Header() {
   const scrolled = useScrollTop()
-  const { user, loading } = useUser()
+  const { user, loading, isAdmin } = useUser()
 
   const handleSignIn = async () => {
     await signInWithGoogle()
@@ -32,9 +32,12 @@ export function Header() {
           <Logo />
           <div className='ml-auto justify-end w-full flex items-center gap-x-2'>
             {loading && <Spinner />}
+            {isAdmin && !loading && (
+              <Button variant='outline'>Create a post</Button>
+            )}
             {!user?.uid && !loading && (
               <>
-                <Button variant='ghost' size='sm' onClick={handleSignIn}>
+                <Button variant='outline' size='sm' onClick={handleSignIn}>
                   Log in
                 </Button>
               </>
