@@ -5,7 +5,7 @@ import { Search as SearchIcon } from 'lucide-react'
 
 import { Input } from '@/components/ui/input'
 import { cn } from '@/lib/utils'
-import { usePostsStore } from '@/hooks/use-posts'
+import { usePostsStore } from '@/hooks/use-posts-store'
 
 export const Search = () => {
   const [focus, setFocus] = useState(false)

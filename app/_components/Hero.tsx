@@ -13,7 +13,7 @@ export const Hero = () => {
           </h1>
           <h2 className='opacity-80 mt-4 text-lg md:text-xl'>
             Join me as I delve into the world of web development. <br /> Explore
-            in-depth articles, tutorials, and tips.
+            in-depth articles, tutorials, and tips (mostly in Uzbek).
           </h2>
         </div>
         <div className='relative h-[200px] w-[200px] sm:h-[300px] sm:w-[500px]'>

@@ -5,6 +5,7 @@ import { User } from 'firebase/auth'
 
 export function useUser() {
   const [user, setUser] = useState<User | null>()
+  const [isAdmin, setIsAdmin] = useState(false)
   const [loading, setLoading] = useState(true)
 
   // Listen for changes to the user session
@@ -13,8 +14,12 @@ export function useUser() {
     const unsubscribe = onAuthStateChanged(async (authUser) => {
       if (authUser) {
         setUser(authUser)
+        if (authUser.uid === process.env.NEXT_PUBLIC_ADMIN_UID) {
+          setIsAdmin(true)
+        }
       } else {
         setUser(null)
+        setIsAdmin(false)
       }
       setLoading(false)
     })
@@ -22,5 +27,5 @@ export function useUser() {
     return () => unsubscribe()
   }, [])
 
-  return { user, loading }
+  return { user, loading, isAdmin }
 }

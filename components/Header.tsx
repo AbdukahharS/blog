@@ -4,7 +4,6 @@ import { useScrollTop } from '@/hooks/use-scroll-top'
 import { cn } from '@/lib/utils'
 import { signInWithGoogle } from '@/lib/firebase/auth'
 import { useUser } from '@/hooks/use-user'
-import { usePosts } from '@/hooks/use-posts'
 
 import { ModeToggle } from '@/components/ModeToggle'
 import { Button } from '@/components/ui/button'
@@ -15,7 +14,6 @@ import { Logo } from '@/components/Logo'
 export function Header() {
   const scrolled = useScrollTop()
   const { user, loading } = useUser()
-  usePosts()
 
   const handleSignIn = async () => {
     await signInWithGoogle()

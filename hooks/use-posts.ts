@@ -1,80 +1,28 @@
-import { useEffect } from 'react'
-import { create } from 'zustand'
+import { useEffect, useState } from 'react'
 import {
   collection,
   query,
   where,
   getDocs,
-  Timestamp,
+  doc,
+  getDoc,
+  orderBy,
 } from 'firebase/firestore'
 
 import { db } from '@/lib/firebase/config'
+import { usePostsStore, Post } from '@/hooks/use-posts-store'
 
-enum Filters {
-  all = 'all',
-  news = 'news',
-  tutorial = 'tutorial',
-}
-
-export interface Post {
-  id: string
-  title: string
-  description: string
-  type: Filters
-  isPublished: boolean
-  createdAt: Timestamp
-  readTime: number
-  banner: string
-}
-
-type PostsStoreType = {
-  loading: boolean
-  posts: Post[]
-  filter: Filters
-  search: string
-  filterCount: {
-    [key: string]: number
-  }
-  setLoading: (loading: boolean) => void
-  setPosts: (posts: Post[]) => void
-  setFilterCount: (filterCount: { [key: string]: number }) => void
-  setFilter: (filter: string) => void
-  setSearch: (search: string) => void
-}
-
-export const usePostsStore = create<PostsStoreType>((set) => ({
-  posts: [],
-  loading: true,
-  filter: Filters.all,
-  search: '',
-  filterCount: {
-    all: 0,
-    news: 0,
-    tutorial: 0,
-  },
-  setLoading: (loading) => {
-    set({ loading })
-  },
-  setPosts: (posts) => {
-    set({ posts })
-  },
-  setFilterCount: (filterCount: { [key: string]: number }) => {
-    set({ filterCount })
-  },
-  setFilter: (filter: string) => {
-    set({ filter: filter as Filters })
-  },
-  setSearch: (search: string) => {
-    set({ search })
-  },
-}))
-
-export const usePosts = () => {
+export const useFetchPosts = () => {
   const { posts, setPosts, setFilterCount, setLoading } = usePostsStore()
+
   useEffect(() => {
     const getPosts = async () => {
       setLoading(true)
-      const q = query(collection(db, 'posts'), where('isPublished', '==', true))
+      const q = query(
+        collection(db, 'posts'),
+        where('isPublished', '==', true),
+        orderBy('createdAt', 'desc')
+      )
 
       const querySnapshot = await getDocs(q)
       const posts: Post[] = []
@@ -110,4 +58,23 @@ export const usePosts = () => {
 
     if (posts.length > 0) updateFilterCount()
   }, [posts, setFilterCount, setLoading])
+}
+
+export const useGetPost = (postId: string) => {
+  const [post, setPost] = useState<Post>({} as Post)
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    const getDocs = async () => {
+      setLoading(true)
+      const docRef = doc(db, 'posts', postId)
+      const docSnap = await getDoc(docRef)
+      setPost({ id: docSnap.id, ...docSnap.data() } as Post)
+      setLoading(false)
+    }
+
+    getDocs()
+  }, [postId])
+
+  return { post, loading }
 }

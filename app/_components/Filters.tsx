@@ -3,7 +3,7 @@
 import { Dot } from 'lucide-react'
 
 import { Spinner } from '@/components/Spinner'
-import { usePostsStore } from '@/hooks/use-posts'
+import { usePostsStore } from '@/hooks/use-posts-store'
 import { cn } from '@/lib/utils'
 
 export const Filters = () => {

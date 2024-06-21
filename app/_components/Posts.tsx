@@ -1,7 +1,7 @@
 'use client'
 
 import Image from 'next/image'
-import { usePostsStore } from '@/hooks/use-posts'
+import { usePostsStore } from '@/hooks/use-posts-store'
 import { useEffect, useState } from 'react'
 
 import PostCard from './PostCard'

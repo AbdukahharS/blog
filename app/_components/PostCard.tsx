@@ -6,7 +6,7 @@ import Link from 'next/link'
 import { Dot } from 'lucide-react'
 
 import { Badge } from '@/components/ui/badge'
-import { Post, usePostsStore } from '@/hooks/use-posts'
+import { Post, usePostsStore } from '@/hooks/use-posts-store'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/skeleton'
@@ -15,13 +15,18 @@ export default function PostCard({ post, i }: { post: Post; i: number }) {
   const { setFilter } = usePostsStore()
   return (
     <div className='relative h-[500px] lg:first:col-span-2 rounded-3xl bg-transparent hover:shadow-lg transition'>
-      <Link href={`/posts/${post.id}`}>
+      <Link href={`/p/${post.id}`}>
         <Image
           alt='Banner image'
-          src='https://cdn.neowin.com/news/images/uploaded/2023/06/1686923675_dev-home-wallpapers.jpg'
+          src={
+            post.banner
+              ? post.banner
+              : 'https://cdn.neowin.com/news/images/uploaded/2023/06/1686923675_dev-home-wallpapers.jpg'
+          }
           fill
           objectFit='cover'
           className='rounded-3xl z-0 border-slate-400 border-[1px]'
+          loading='lazy'
         />
         <div className='z-10 absolute left-5 bottom-5 max-w-[calc(100%-40px)]'>
           {i === 0 && (
