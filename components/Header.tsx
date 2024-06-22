@@ -1,5 +1,7 @@
 'use client'
 
+import { useRouter } from 'next/navigation'
+
 import { useScrollTop } from '@/hooks/use-scroll-top'
 import { cn } from '@/lib/utils'
 import { signInWithGoogle } from '@/lib/firebase/auth'
@@ -10,10 +12,25 @@ import { Button } from '@/components/ui/button'
 import { Spinner } from '@/components/Spinner'
 import { AvatarMenu } from '@/components/AvatarMenu'
 import { Logo } from '@/components/Logo'
+import { useCreatePost } from '@/hooks/use-posts'
 
 export function Header() {
   const scrolled = useScrollTop()
+  const router = useRouter()
+  const { createPost, loading: postLoading } = useCreatePost()
   const { user, loading, isAdmin } = useUser()
+
+  const handleCreatePost = async () => {
+    const id = await createPost({})
+
+    try {
+      router.push(`/p/${id}`)
+    } catch (error) {
+      console.log(error)
+
+      console.error(error)
+    }
+  }
 
   const handleSignIn = async () => {
     await signInWithGoogle()
@@ -33,7 +50,13 @@ export function Header() {
           <div className='ml-auto justify-end w-full flex items-center gap-x-2'>
             {loading && <Spinner />}
             {isAdmin && !loading && (
-              <Button variant='outline'>Create a post</Button>
+              <Button
+                variant='outline'
+                disabled={postLoading}
+                onClick={handleCreatePost}
+              >
+                {postLoading ? 'Creating...' : 'Create Post'}
+              </Button>
             )}
             {!user?.uid && !loading && (
               <>

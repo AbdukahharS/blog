@@ -7,6 +7,8 @@ import {
   doc,
   getDoc,
   orderBy,
+  addDoc,
+  Timestamp,
 } from 'firebase/firestore'
 
 import { db } from '@/lib/firebase/config'
@@ -27,7 +29,6 @@ export const useFetchPosts = () => {
       const querySnapshot = await getDocs(q)
       const posts: Post[] = []
       querySnapshot.forEach((doc) => {
-        posts.push({ id: doc.id, ...doc.data(), description: '' } as Post)
         posts.push({ id: doc.id, ...doc.data(), description: '' } as Post)
       })
       setPosts(posts)
@@ -77,4 +78,36 @@ export const useGetPost = (postId: string) => {
   }, [postId])
 
   return { post, loading }
+}
+
+type postDetails = {
+  title?: string
+  banner?: string
+  content?: string
+  description?: string
+  type?: string
+}
+
+export const useCreatePost = () => {
+  const [loading, setLoading] = useState(false)
+  const createPost = async (post: postDetails) => {
+    setLoading(true)
+    const newPost = {
+      title: post.title || 'Untitled',
+      banner: post.banner || '',
+      content: post.content || '',
+      description: post.description || '',
+      type: post.type || 'news',
+      isPublished: false,
+      createdAt: Timestamp.now(),
+    }
+
+    const colRef = collection(db, 'posts')
+    const docSnap = await addDoc(colRef, newPost)
+    setLoading(false)
+
+    return docSnap.id
+  }
+
+  return { createPost, loading }
 }

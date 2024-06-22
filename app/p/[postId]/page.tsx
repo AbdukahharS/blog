@@ -11,7 +11,7 @@ import { Separator } from '@/components/ui/separator'
 import { Dot } from 'lucide-react'
 import Editor from './_components/Editor'
 
-const page = () => {
+const Page = () => {
   const { postId } = useParams()
   const { isAdmin } = useUser()
   const { post, loading } = useGetPost(postId as string)
@@ -25,15 +25,17 @@ const page = () => {
 
   return (
     <div className='lg:max-w-7xl mx-auto py-4 px-6 lg:px-10'>
-      <div className='relative w-full h-[25vh] sm:h-[40vh] max-w-[1200px] mx-auto mt-4'>
-        <Image
-          src={post.banner}
-          alt='Banner image'
-          fill
-          className='object-cover rounded-t-xl md:rounded-t-3xl'
-          loading='lazy'
-        />
-      </div>
+      {post?.banner && (
+        <div className='relative w-full h-[25vh] sm:h-[40vh] max-w-[1200px] mx-auto mt-4'>
+          <Image
+            src={post.banner}
+            alt='Banner image'
+            fill
+            className='object-cover rounded-xl md:rounded-3xl'
+            loading='lazy'
+          />
+        </div>
+      )}
       <h1 className='text-4xl md:text-5xl font-bold m-4 md:m-6'>
         {post.title}
       </h1>
@@ -52,4 +54,4 @@ const page = () => {
   )
 }
 
-export default page
+export default Page
