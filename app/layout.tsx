@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
+import { Toaster } from '@/components/ui/toaster'
 
 import Header from '@/components/Header' // added
 import CustomCursor from '@/components/CursorFollower/CustomCursor'
@@ -38,6 +39,7 @@ export default async function RootLayout({
             <CustomCursor />
             <Header />
             {children}
+            <Toaster />
           </div>
         </ThemeProvider>
       </body>
