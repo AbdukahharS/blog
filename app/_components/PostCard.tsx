@@ -13,6 +13,16 @@ import { Skeleton } from '@/components/ui/skeleton'
 
 export default function PostCard({ post, i }: { post: Post; i: number }) {
   const { setFilter } = usePostsStore()
+
+  const handleClick = (
+    type: string,
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    e.preventDefault()
+    e.stopPropagation()
+
+    setFilter(type)
+  }
   return (
     <div className='relative h-[500px] lg:first:col-span-2 rounded-3xl bg-transparent hover:shadow-lg transition'>
       <Link href={`/p/${post.id}`}>
@@ -49,7 +59,7 @@ export default function PostCard({ post, i }: { post: Post; i: number }) {
           </div>
           <div className='px-4 relative pb-3 pt-1 bg-secondary rounded-b-3xl w-fit flex items-center max-w-[calc(100%-40px)] after:absolute after:right-0 after:h-1/2 after:bg-transparent after:block after:w-4 after:top-0 after:translate-x-4 after:translate-y-[-10px] after:rounded-ss-3xl after:border-t-[10px] after:border-l-[10px] after:border-accent after:box-content'>
             <Button
-              onClick={() => setFilter(post.type)}
+              onClick={(e) => handleClick(post.type, e)}
               variant='outline'
               className='rounded-xl'
             >

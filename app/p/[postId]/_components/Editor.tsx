@@ -11,14 +11,14 @@ import '@blocknote/core/fonts/inter.css'
 interface EditorProps {
   initialContent?: string
   editable?: boolean
-  onChange?: () => void
-  setContent?: (content: string) => void
+  setChanged: (bool: boolean) => void
+  setContent: (content: string) => void
 }
 
 const Editor = ({
   initialContent,
   editable = true,
-  onChange,
+  setChanged,
   setContent,
 }: EditorProps) => {
   const { resolvedTheme } = useTheme()
@@ -30,12 +30,8 @@ const Editor = ({
   })
 
   const handleChange = () => {
-    if (typeof onChange === 'function') {
-      onChange()
-    }
-    if (typeof setContent === 'function') {
-      setContent(JSON.stringify(editor.document))
-    }
+    setChanged(true)
+    setContent(JSON.stringify(editor.document))
   }
 
   return (

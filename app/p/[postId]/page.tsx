@@ -23,6 +23,8 @@ const Page = () => {
   const [changed, setChanged] = useState(false)
   const [content, setContent] = useState<string>('')
 
+  console.log(changed)
+
   const handeSave = async () => {
     await updatePost(postId as string, { content })
     setChanged(false)
@@ -36,7 +38,7 @@ const Page = () => {
     )
 
   return (
-    <div className='lg:max-w-7xl mx-auto py-4 px-6 lg:px-10'>
+    <div className='lg:max-w-7xl mx-auto pt-4 pb-10 px-6 lg:px-10'>
       {post?.banner && (
         <div className='relative w-full h-[25vh] sm:h-[40vh] max-w-[1200px] mx-auto mt-4'>
           <Image
@@ -63,12 +65,12 @@ const Page = () => {
         )}
       >
         <Button
-          disabled={!changed}
-          variant={changed ? 'default' : 'ghost'}
+          disabled={!changed || updateLoad}
+          variant={changed && !updateLoad ? 'default' : 'ghost'}
           className='text-md md:text-lg'
           onClick={handeSave}
         >
-          {changed ? 'Save changes' : 'Up to date'}
+          {updateLoad ? 'Saving...' : changed ? 'Save changes' : 'Up to date'}
         </Button>
         <div className='opacity-70 flex gap-2 md:gap-3'>
           <span>{post.readTime || 0} min read</span>
@@ -79,10 +81,10 @@ const Page = () => {
         </div>
       </div>
       <Editor
-        onChange={() => setChanged(true)}
+        setChanged={setChanged}
         initialContent={post.content}
         editable={isAdmin}
-        setContent={(content: string) => setContent(content)}
+        setContent={setContent}
       />
     </div>
   )
