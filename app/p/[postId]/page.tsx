@@ -1,10 +1,11 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Image from 'next/image'
 import { useParams } from 'next/navigation'
 import { format } from 'date-fns'
 import { Dot } from 'lucide-react'
+import readingTime from 'reading-time'
 
 import { useGetPost, useCreatePost } from '@/hooks/use-posts'
 import { useUser } from '@/hooks/use-user'
@@ -23,10 +24,11 @@ const Page = () => {
   const [changed, setChanged] = useState(false)
   const [content, setContent] = useState<string>('')
 
-  console.log(changed)
-
   const handeSave = async () => {
-    await updatePost(postId as string, { content })
+    const { minutes } = readingTime(content)
+
+    await updatePost(postId as string, { content, readTime: Number(minutes) })
+    post.readTime = Number(minutes)
     setChanged(false)
   }
 
@@ -75,9 +77,7 @@ const Page = () => {
         <div className='opacity-70 flex gap-2 md:gap-3'>
           <span>{post.readTime || 0} min read</span>
           <Dot className='text-primary w-6 h-6' />
-          <span>
-            Published: {format(post.createdAt.toDate(), 'dd MMM yyyy')}
-          </span>
+          <span>Written: {format(post.createdAt.toDate(), 'dd MMM yyyy')}</span>
         </div>
       </div>
       <Editor

@@ -87,6 +87,7 @@ type postDetails = {
   content?: string
   description?: string
   type?: string
+  readTime?: number
 }
 
 export const useCreatePost = () => {
@@ -101,6 +102,7 @@ export const useCreatePost = () => {
       type: post.type || 'news',
       isPublished: false,
       createdAt: Timestamp.now(),
+      readTime: 0,
     }
 
     const colRef = collection(db, 'posts')
