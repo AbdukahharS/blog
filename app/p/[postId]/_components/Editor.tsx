@@ -11,9 +11,16 @@ import '@blocknote/core/fonts/inter.css'
 interface EditorProps {
   initialContent?: string
   editable?: boolean
+  onChange?: () => void
+  setContent?: (content: string) => void
 }
 
-const Editor = ({ initialContent, editable = true }: EditorProps) => {
+const Editor = ({
+  initialContent,
+  editable = true,
+  onChange,
+  setContent,
+}: EditorProps) => {
   const { resolvedTheme } = useTheme()
 
   const editor = useCreateBlockNote({
@@ -22,17 +29,20 @@ const Editor = ({ initialContent, editable = true }: EditorProps) => {
       : undefined,
   })
 
-  //   const handleChange = () => {
-  //     console.log(editor.document)
-
-  //     onChange(JSON.stringify(editor.document))
-  //   }
+  const handleChange = () => {
+    if (typeof onChange === 'function') {
+      onChange()
+    }
+    if (typeof setContent === 'function') {
+      setContent(JSON.stringify(editor.document))
+    }
+  }
 
   return (
     <BlockNoteView
       editor={editor}
       editable={editable}
-      //   onChange={handleChange}
+      onChange={handleChange}
       theme={resolvedTheme === 'dark' ? 'dark' : 'light'}
     />
   )

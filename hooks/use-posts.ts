@@ -9,6 +9,7 @@ import {
   orderBy,
   addDoc,
   Timestamp,
+  updateDoc,
 } from 'firebase/firestore'
 
 import { db } from '@/lib/firebase/config'
@@ -109,5 +110,12 @@ export const useCreatePost = () => {
     return docSnap.id
   }
 
-  return { createPost, loading }
+  const updatePost = async (postId: string, post: postDetails) => {
+    setLoading(true)
+    const docRef = doc(db, 'posts', postId)
+    await updateDoc(docRef, post)
+    setLoading(false)
+  }
+
+  return { createPost, loading, updatePost }
 }
