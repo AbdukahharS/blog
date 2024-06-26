@@ -15,7 +15,10 @@ export interface Post {
   isPublished: boolean
   createdAt: Timestamp
   readTime: number
-  banner: string
+  banner: {
+    name: string
+    url: string
+  } | null
   content: string
 }
 

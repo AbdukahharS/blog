@@ -11,8 +11,14 @@ import {
   Timestamp,
   updateDoc,
 } from 'firebase/firestore'
+import {
+  deleteObject,
+  getDownloadURL,
+  ref,
+  uploadBytes,
+} from 'firebase/storage'
 
-import { db } from '@/lib/firebase/config'
+import { db, storage } from '@/lib/firebase/config'
 import { usePostsStore, Post } from '@/hooks/use-posts-store'
 
 export const useFetchPosts = () => {
@@ -83,7 +89,7 @@ export const useGetPost = (postId: string) => {
 
 type postDetails = {
   title?: string
-  banner?: string
+  banner?: { newFile: File | null; oldFile?: string }
   content?: string
   description?: string
   type?: string
@@ -96,7 +102,7 @@ export const useCreatePost = () => {
     setLoading(true)
     const newPost = {
       title: post.title || 'Untitled',
-      banner: post.banner || '',
+      banner: null,
       content: post.content || '',
       description: post.description || '',
       type: post.type || 'news',
@@ -113,10 +119,40 @@ export const useCreatePost = () => {
   }
 
   const updatePost = async (postId: string, post: postDetails) => {
+    let banner = {
+      name: '',
+      url: '',
+    }
+
     setLoading(true)
-    const docRef = doc(db, 'posts', postId)
-    await updateDoc(docRef, post)
-    setLoading(false)
+
+    try {
+      const docRef = doc(db, 'posts', postId)
+
+      if (!!post.banner?.newFile) {
+        if (!!post.banner?.oldFile) {
+          const storageRef = ref(storage, `banner/${post.banner.oldFile}`)
+          await deleteObject(storageRef)
+        }
+
+        banner.name = postId + '_' + post.banner.newFile.name
+        const storageRef = ref(storage, `banner/${banner.name}`)
+        await uploadBytes(storageRef, post.banner.newFile)
+        banner.url = await getDownloadURL(storageRef)
+      } else if (post.banner?.newFile === null && post.banner?.oldFile) {
+        const storageRef = ref(storage, `banner/${post.banner.oldFile}`)
+        await deleteObject(storageRef)
+      }
+      await updateDoc(docRef, {
+        ...post,
+        banner: !!banner.name && !!banner.url ? banner : null,
+      })
+    } catch (error) {
+      console.log(error)
+    } finally {
+      setLoading(false)
+    }
+    return !!banner.name && !!banner.url ? banner : null
   }
 
   return { createPost, loading, updatePost }

@@ -1,19 +1,21 @@
 'use client'
 
-import { useEffect, useState } from 'react'
-import Image from 'next/image'
+import { useState } from 'react'
 import { useParams } from 'next/navigation'
 import { format } from 'date-fns'
 import { Dot } from 'lucide-react'
 import readingTime from 'reading-time'
+import dynamic from 'next/dynamic'
 
 import { useGetPost, useCreatePost } from '@/hooks/use-posts'
 import { useUser } from '@/hooks/use-user'
 import { Spinner } from '@/components/Spinner'
 import { Separator } from '@/components/ui/separator'
-import Editor from './_components/Editor'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
+import Cover from './_components/Cover'
+
+const Editor = dynamic(() => import('./_components/Editor'), { ssr: false })
 
 const Page = () => {
   const { postId } = useParams()
@@ -41,17 +43,7 @@ const Page = () => {
 
   return (
     <div className='lg:max-w-7xl mx-auto pt-4 pb-10 px-6 lg:px-10'>
-      {post?.banner && (
-        <div className='relative w-full h-[25vh] sm:h-[40vh] max-w-[1200px] mx-auto mt-4'>
-          <Image
-            src={post.banner}
-            alt='Banner image'
-            fill
-            className='object-cover rounded-xl md:rounded-3xl'
-            loading='lazy'
-          />
-        </div>
-      )}
+      <Cover cover={post.banner} />
       <h1 className='text-4xl md:text-5xl font-bold m-4 md:m-6'>
         {post.title}
       </h1>
@@ -66,14 +58,16 @@ const Page = () => {
           isAdmin && 'justify-between'
         )}
       >
-        <Button
-          disabled={!changed || updateLoad}
-          variant={changed && !updateLoad ? 'default' : 'ghost'}
-          className='text-md md:text-lg'
-          onClick={handeSave}
-        >
-          {updateLoad ? 'Saving...' : changed ? 'Save changes' : 'Up to date'}
-        </Button>
+        {isAdmin && (
+          <Button
+            disabled={!changed || updateLoad}
+            variant={changed && !updateLoad ? 'default' : 'ghost'}
+            className='text-md md:text-lg'
+            onClick={handeSave}
+          >
+            {updateLoad ? 'Saving...' : changed ? 'Save changes' : 'Up to date'}
+          </Button>
+        )}
         <div className='opacity-70 flex gap-2 md:gap-3'>
           <span>{post.readTime || 0} min read</span>
           <Dot className='text-primary w-6 h-6' />
