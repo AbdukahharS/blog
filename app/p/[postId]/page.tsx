@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useParams } from 'next/navigation'
 import { format } from 'date-fns'
 import { Dot } from 'lucide-react'
@@ -14,6 +14,7 @@ import { Separator } from '@/components/ui/separator'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import Cover from './_components/Cover'
+import Toolbar from './_components/Toolbar'
 
 const Editor = dynamic(() => import('./_components/Editor'), { ssr: false })
 
@@ -25,6 +26,15 @@ const Page = () => {
 
   const [changed, setChanged] = useState(false)
   const [content, setContent] = useState<string>('')
+
+  useEffect(() => {
+    if (isAdmin) {
+      setChanged(false)
+    }
+    if (!loading) {
+      setChanged(false)
+    }
+  }, [isAdmin, loading])
 
   const handeSave = async () => {
     const { minutes } = readingTime(content)
@@ -44,13 +54,7 @@ const Page = () => {
   return (
     <div className='lg:max-w-7xl mx-auto pt-4 pb-10 px-6 lg:px-10'>
       <Cover cover={post.banner} />
-      <h1 className='text-4xl md:text-5xl font-bold m-4 md:m-6'>
-        {post.title}
-      </h1>
-      <h3 className='mt-3 text-md/6 md:text-xl/6 max-w-[800px] font-semibold opacity-80'>
-        {post.description ||
-          'Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio nemo incidunt mollitia illum facere perspiciatis sequi laudantium rerum voluptatum quas!'}
-      </h3>
+      <Toolbar initialData={post} postId={postId as string} />
       <Separator className='my-6' />
       <div
         className={cn(
@@ -69,15 +73,21 @@ const Page = () => {
           </Button>
         )}
         <div className='opacity-70 flex gap-2 md:gap-3'>
-          <span>{post.readTime || 0} min read</span>
+          <span>
+            {post.readTime || 0} min{' '}
+            <span className='hidden sm:inline'>read</span>
+          </span>
           <Dot className='text-primary w-6 h-6' />
-          <span>Written: {format(post.createdAt.toDate(), 'dd MMM yyyy')}</span>
+          <span>
+            <span className='hidden sm:inline'>Written: </span>
+            {format(post.createdAt.toDate(), 'dd MMM yyyy')}
+          </span>
         </div>
       </div>
       <Editor
         setChanged={setChanged}
         initialContent={post.content}
-        editable={isAdmin}
+        editable={isAdmin && !updateLoad}
         setContent={setContent}
       />
     </div>

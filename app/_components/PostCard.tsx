@@ -30,7 +30,7 @@ export default function PostCard({ post, i }: { post: Post; i: number }) {
           alt='Banner image'
           src={
             post.banner
-              ? post.banner
+              ? post.banner.url
               : 'https://cdn.neowin.com/news/images/uploaded/2023/06/1686923675_dev-home-wallpapers.jpg'
           }
           fill

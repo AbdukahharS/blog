@@ -11,14 +11,9 @@ import {
   Timestamp,
   updateDoc,
 } from 'firebase/firestore'
-import {
-  deleteObject,
-  getDownloadURL,
-  ref,
-  uploadBytes,
-} from 'firebase/storage'
 
-import { db, storage } from '@/lib/firebase/config'
+import useStorage from '@/hooks/use-storage'
+import { db } from '@/lib/firebase/config'
 import { usePostsStore, Post } from '@/hooks/use-posts-store'
 
 export const useFetchPosts = () => {
@@ -98,6 +93,8 @@ type postDetails = {
 
 export const useCreatePost = () => {
   const [loading, setLoading] = useState(false)
+  const { uploadFile, deleteFile } = useStorage()
+
   const createPost = async (post: postDetails) => {
     setLoading(true)
     const newPost = {
@@ -129,24 +126,28 @@ export const useCreatePost = () => {
     try {
       const docRef = doc(db, 'posts', postId)
 
-      if (!!post.banner?.newFile) {
-        if (!!post.banner?.oldFile) {
-          const storageRef = ref(storage, `banner/${post.banner.oldFile}`)
-          await deleteObject(storageRef)
+      if (!post.banner) {
+        await updateDoc(docRef, post)
+      } else {
+        if (!!post.banner?.newFile) {
+          if (!!post.banner?.oldFile) {
+            await deleteFile(`banner/${post.banner.oldFile}`)
+          }
+
+          banner.name = postId + '_' + post.banner.newFile.name
+          banner.url = await uploadFile(
+            post.banner.newFile,
+            `banner/${banner.name}`
+          )
+        } else if (post.banner?.newFile === null && post.banner?.oldFile) {
+          deleteFile(`banner/${post.banner.oldFile}`)
         }
 
-        banner.name = postId + '_' + post.banner.newFile.name
-        const storageRef = ref(storage, `banner/${banner.name}`)
-        await uploadBytes(storageRef, post.banner.newFile)
-        banner.url = await getDownloadURL(storageRef)
-      } else if (post.banner?.newFile === null && post.banner?.oldFile) {
-        const storageRef = ref(storage, `banner/${post.banner.oldFile}`)
-        await deleteObject(storageRef)
+        await updateDoc(docRef, {
+          ...post,
+          banner: !!banner.name && !!banner.url ? banner : null,
+        })
       }
-      await updateDoc(docRef, {
-        ...post,
-        banner: !!banner.name && !!banner.url ? banner : null,
-      })
     } catch (error) {
       console.log(error)
     } finally {

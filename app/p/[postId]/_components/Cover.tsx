@@ -41,7 +41,17 @@ const Cover = ({ cover }: CoverProps) => {
     setCoverState(null)
   }
 
-  const onReplace = async () => {}
+  const onReplace = async (e: ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+
+    if (!file) return
+
+    const newCover = await updatePost(postId as string, {
+      banner: { oldFile: coverState?.name, newFile: file },
+    })
+
+    setCoverState(newCover)
+  }
 
   if (!coverState && !isAdmin) return null
 
@@ -66,19 +76,23 @@ const Cover = ({ cover }: CoverProps) => {
               id='replaceFile'
               hidden
               accept='image/*'
-              onChange={onChange}
+              onChange={onReplace}
             />
 
-            <Button variant='secondary' asChild>
-              <label htmlFor='replaceFile' className='cursor-pointer'>
-                <Replace />
-                Replace
-              </label>
-            </Button>
-            <Button onClick={onRemove} variant='destructive'>
-              <Trash2 />
-              Remove
-            </Button>
+            {isAdmin && (
+              <>
+                <Button variant='secondary' asChild>
+                  <label htmlFor='replaceFile' className='cursor-pointer'>
+                    <Replace />
+                    Replace
+                  </label>
+                </Button>
+                <Button onClick={onRemove} variant='destructive'>
+                  <Trash2 />
+                  Remove
+                </Button>
+              </>
+            )}
           </div>
         </>
       ) : (
