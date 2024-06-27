@@ -8,8 +8,8 @@ const NotFound = () => {
         alt='Not found'
         width={300}
         height={300}
-        loading='lazy'
         className='w-[200px] sm:w-[300px]'
+        priority
       />
       <h1 className='text-2xl text-center sm:text-4xl font-bold md:font-extrabold'>
         This page does not exist

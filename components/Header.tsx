@@ -13,6 +13,7 @@ import { Spinner } from '@/components/Spinner'
 import { AvatarMenu } from '@/components/AvatarMenu'
 import { Logo } from '@/components/Logo'
 import { useCreatePost } from '@/hooks/use-posts'
+import Link from 'next/link'
 
 export function Header() {
   const scrolled = useScrollTop()
@@ -49,6 +50,11 @@ export function Header() {
           <Logo />
           <div className='ml-auto justify-end w-full flex items-center gap-x-2'>
             {loading && <Spinner />}
+            {isAdmin && (
+              <Button variant='link' asChild>
+                <Link href='/unpublished'>Unpublished</Link>
+              </Button>
+            )}
             {isAdmin && !loading && (
               <Button
                 variant='outline'

@@ -63,23 +63,75 @@ export const useFetchPosts = () => {
   }, [posts, setFilterCount, setLoading])
 }
 
+export const useFetchUnpublishedPosts = () => {
+  const { posts, setPosts, setFilterCount, setLoading } = usePostsStore()
+
+  useEffect(() => {
+    const getPosts = async () => {
+      setLoading(true)
+      const q = query(
+        collection(db, 'posts'),
+        where('isPublished', '==', false),
+        orderBy('createdAt', 'desc')
+      )
+
+      const querySnapshot = await getDocs(q)
+      const posts: Post[] = []
+      querySnapshot.forEach((doc) => {
+        posts.push({ id: doc.id, ...doc.data(), description: '' } as Post)
+      })
+      setPosts(posts)
+      setLoading(false)
+    }
+
+    getPosts()
+  }, [setPosts, setLoading])
+
+  useEffect(() => {
+    const updateFilterCount = () => {
+      setLoading(true)
+      const count = {
+        all: 0,
+        news: 0,
+        tutorial: 0,
+      }
+
+      for (const post of posts) {
+        const type = post.type as 'news' | 'tutorial'
+        count[type]++
+        count.all++
+      }
+
+      setFilterCount(count)
+      setLoading(false)
+    }
+
+    if (posts.length > 0) updateFilterCount()
+  }, [posts, setFilterCount, setLoading])
+}
+
 export const useGetPost = (postId: string) => {
   const [post, setPost] = useState<Post>({} as Post)
+  const [notfound, setNotFound] = useState(false)
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     const getDocs = async () => {
       setLoading(true)
-      const docRef = doc(db, 'posts', postId)
-      const docSnap = await getDoc(docRef)
-      setPost({ id: docSnap.id, ...docSnap.data() } as Post)
+      try {
+        const docRef = doc(db, 'posts', postId)
+        const docSnap = await getDoc(docRef)
+        setPost({ id: docSnap.id, ...docSnap.data() } as Post)
+      } catch (e) {
+        setNotFound(true)
+      }
       setLoading(false)
     }
 
     getDocs()
   }, [postId])
 
-  return { post, loading }
+  return { post, loading, notfound }
 }
 
 type postDetails = {

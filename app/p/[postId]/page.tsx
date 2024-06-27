@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { useParams } from 'next/navigation'
+import { notFound, useParams } from 'next/navigation'
 import { format } from 'date-fns'
 import { Dot } from 'lucide-react'
 import readingTime from 'reading-time'
@@ -21,11 +21,13 @@ const Editor = dynamic(() => import('./_components/Editor'), { ssr: false })
 const Page = () => {
   const { postId } = useParams()
   const { isAdmin } = useUser()
-  const { post, loading } = useGetPost(postId as string)
+  const { post, loading, notfound } = useGetPost(postId as string)
   const { loading: updateLoad, updatePost } = useCreatePost()
 
   const [changed, setChanged] = useState(false)
   const [content, setContent] = useState<string>('')
+
+  if (!loading && notfound) notFound()
 
   useEffect(() => {
     if (isAdmin) {
