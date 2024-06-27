@@ -92,7 +92,7 @@ const Page = () => {
           <Dot className='text-primary w-6 h-6' />
           <span>
             <span className='hidden sm:inline'>Written: </span>
-            {format(post.createdAt.toDate(), 'dd MMM yyyy')}
+            {post.createdAt && format(post.createdAt.toDate(), 'dd MMM yyyy')}
           </span>
         </div>
       </div>
