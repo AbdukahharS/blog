@@ -44,6 +44,11 @@ const Page = () => {
     setChanged(false)
   }
 
+  const togglePublish = async () => {
+    await updatePost(postId as string, { isPublished: !post.isPublished })
+    post.isPublished = !post.isPublished
+  }
+
   if (loading)
     return (
       <div className='w-full h-full flex justify-center items-center min-h-[calc(100vh-92px)]'>
@@ -53,6 +58,9 @@ const Page = () => {
 
   return (
     <div className='lg:max-w-7xl mx-auto pt-4 pb-10 px-6 lg:px-10'>
+      <Button onClick={togglePublish} className='text-md md:text-lg w-full'>
+        {post.isPublished ? 'Unpublish' : 'Publish'}
+      </Button>
       <Cover cover={post.banner} />
       <Toolbar initialData={post} postId={postId as string} />
       <Separator className='my-6' />

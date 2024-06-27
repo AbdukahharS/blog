@@ -89,6 +89,7 @@ type postDetails = {
   description?: string
   type?: string
   readTime?: number
+  isPublished?: boolean
 }
 
 export const useCreatePost = () => {
