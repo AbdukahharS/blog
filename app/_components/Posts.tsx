@@ -28,11 +28,13 @@ export default function Posts() {
   }, [search, posts, filter])
 
   return (
-    <div className='bg-foreground/80 dark:bg-accent mt-10 rounded-t-[50px] flex justify-center flex-1'>
+    <div className='bg-foreground/70 dark:bg-accent mt-10 rounded-t-[50px] flex justify-center flex-1 items-center'>
       {!loading && filteredPosts.length === 0 ? (
         <div>
           <Image src='/no-items.svg' alt='No items' width={300} height={300} />
-          <p className='text-center text-6xl font-semibold'>No items</p>
+          <p className='text-center text-6xl font-semibold text-foreground/80'>
+            No items
+          </p>
         </div>
       ) : (
         <div className='p-10 max-w-[1600px] w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10'>
