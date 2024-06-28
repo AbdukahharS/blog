@@ -5,11 +5,20 @@ import TextareaAutosize from 'react-textarea-autosize'
 
 import { useUser } from '@/hooks/use-user'
 import { useCreatePost } from '@/hooks/use-posts'
+import { Badge } from '@/components/ui/badge'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
 
 interface ToolbarProps {
   initialData: {
     title: string
     description?: string
+    type: string
   }
   postId: string
 }
@@ -25,6 +34,7 @@ const Toolbar = ({ initialData, postId }: ToolbarProps) => {
   const [isDescEditing, setIsDescEditing] = useState(false)
   const [title, setTitle] = useState(initialData.title)
   const [desc, setDesc] = useState(initialData.description || '')
+  const [type, setType] = useState(initialData.type)
 
   const enableTitle = () => {
     if (!isAdmin) return
@@ -78,6 +88,11 @@ const Toolbar = ({ initialData, postId }: ToolbarProps) => {
     }
   }
 
+  const handleTypeChange = async (type: string) => {
+    await updatePost(postId, { type })
+    setType(type)
+  }
+
   return (
     <div className='pl-[54px] group relative'>
       {isTitleEditing && isAdmin ? (
@@ -114,6 +129,25 @@ const Toolbar = ({ initialData, postId }: ToolbarProps) => {
           {desc}
         </h3>
       )}
+      <div className='mt-1 flex justify-end'>
+        {isAdmin ? (
+          <Select
+            value={type}
+            onValueChange={handleTypeChange}
+            disabled={loading}
+          >
+            <SelectTrigger className='w-[180px]'>
+              <SelectValue placeholder={type} />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value='news'>News</SelectItem>
+              <SelectItem value='tutorial'>Tutorial</SelectItem>
+            </SelectContent>
+          </Select>
+        ) : (
+          <Badge>{type}</Badge>
+        )}
+      </div>
     </div>
   )
 }
