@@ -1,6 +1,7 @@
 'use client'
 
 import { useRouter } from 'next/navigation' 
+import Link from 'next/link'
 
 import { useScrollTop } from '@/hooks/use-scroll-top'
 import { cn } from '@/lib/utils'
@@ -13,7 +14,6 @@ import { Spinner } from '@/components/Spinner'
 import { AvatarMenu } from '@/components/AvatarMenu'
 import { Logo } from '@/components/Logo'
 import { useCreatePost } from '@/hooks/use-posts'
-import Link from 'next/link'
 
 export function Header() {
   const scrolled = useScrollTop()

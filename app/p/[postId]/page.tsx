@@ -41,7 +41,10 @@ const Page = () => {
   const handeSave = async () => {
     const { minutes } = readingTime(content)
 
-    await updatePost(postId as string, { content, readTime: Number(minutes) })
+    await updatePost(postId as string, {
+      content,
+      readTime: Math.round(Number(minutes)),
+    })
     post.readTime = Number(minutes)
     setChanged(false)
   }

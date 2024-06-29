@@ -17,12 +17,12 @@ export const Hero = () => {
           </h2>
         </div>
         <div className='relative h-[200px] w-[200px] sm:h-[300px] sm:w-[500px]'>
-          <Image src='/hero.svg' alt='Hello World code' fill loading='lazy' />
+          <Image src='/hero.svg' alt='Hello World code' fill />
         </div>
       </div>
-      <div className='flex flex-col md:flex-row gap-4 justify-between items-center px-6 lg:px-12 mt-8 md:mt-0 max-w-[calc(100vw-3rem)]'>
-        <Filters />
+      <div className='flex justify-between items-center md:flex-row-reverse flex-col-reverse gap-4 w-full px-6 lg:px-12 mt-8 md:mt-0 max-w-[calc(100vw-3rem)]'>
         <Search />
+        <Filters />
       </div>
     </div>
   )

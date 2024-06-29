@@ -13,12 +13,20 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { LogOut, Settings } from 'lucide-react'
+import { toast } from './ui/use-toast'
 
 export const AvatarMenu = () => {
   const { user } = useUser()
 
   const handleSignOut = async () => {
     await signOutWithGoogle()
+  }
+
+  const handleSettings = () => {
+    toast({
+      title: 'Coming soon...',
+      description: 'I am working on it :)',
+    })
   }
 
   return (
@@ -54,7 +62,7 @@ export const AvatarMenu = () => {
           <LogOut className='w-4 h-4 mr-2' />
           <span>Log out</span>
         </DropdownMenuItem>
-        <DropdownMenuItem onClick={handleSignOut}>
+        <DropdownMenuItem onClick={handleSettings}>
           <Settings className='w-4 h-4 mr-2' />
           <span>Settings</span>
         </DropdownMenuItem>

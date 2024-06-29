@@ -5,6 +5,7 @@ enum Filters {
   all = 'all',
   news = 'news',
   tutorial = 'tutorial',
+  informative = 'informative',
 }
 
 export interface Post {
@@ -46,6 +47,7 @@ export const usePostsStore = create<PostsStoreType>((set) => ({
     all: 0,
     news: 0,
     tutorial: 0,
+    informative: 0,
   },
   setLoading: (loading) => {
     set({ loading })

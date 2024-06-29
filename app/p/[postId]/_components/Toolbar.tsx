@@ -94,7 +94,7 @@ const Toolbar = ({ initialData, postId }: ToolbarProps) => {
   }
 
   return (
-    <div className='pl-[54px] group relative'>
+    <div className='pl-0 sm:pl-[54px] group relative'>
       {isTitleEditing && isAdmin ? (
         <TextareaAutosize
           ref={titleRef}
@@ -142,6 +142,7 @@ const Toolbar = ({ initialData, postId }: ToolbarProps) => {
             <SelectContent>
               <SelectItem value='news'>News</SelectItem>
               <SelectItem value='tutorial'>Tutorial</SelectItem>
+              <SelectItem value='informative'>Informative article</SelectItem>
             </SelectContent>
           </Select>
         ) : (

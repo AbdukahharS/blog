@@ -31,7 +31,7 @@ export const useFetchPosts = () => {
       const querySnapshot = await getDocs(q)
       const posts: Post[] = []
       querySnapshot.forEach((doc) => {
-        posts.push({ id: doc.id, ...doc.data(), description: '' } as Post)
+        posts.push({ id: doc.id, ...doc.data() } as Post)
       })
       setPosts(posts)
       setLoading(false)
@@ -47,10 +47,11 @@ export const useFetchPosts = () => {
         all: 0,
         news: 0,
         tutorial: 0,
+        informative: 0,
       }
 
       for (const post of posts) {
-        const type = post.type as 'news' | 'tutorial'
+        const type = post.type as 'news' | 'tutorial' | 'informative'
         count[type]++
         count.all++
       }
@@ -78,7 +79,7 @@ export const useFetchUnpublishedPosts = () => {
       const querySnapshot = await getDocs(q)
       const posts: Post[] = []
       querySnapshot.forEach((doc) => {
-        posts.push({ id: doc.id, ...doc.data(), description: '' } as Post)
+        posts.push({ id: doc.id, ...doc.data() } as Post)
       })
       setPosts(posts)
       setLoading(false)
@@ -94,10 +95,11 @@ export const useFetchUnpublishedPosts = () => {
         all: 0,
         news: 0,
         tutorial: 0,
+        informative: 0,
       }
 
       for (const post of posts) {
-        const type = post.type as 'news' | 'tutorial'
+        const type = post.type as 'news' | 'tutorial' | 'informative'
         count[type]++
         count.all++
       }
@@ -154,7 +156,7 @@ export const useCreatePost = () => {
       title: post.title || 'Untitled',
       banner: null,
       content: post.content || '',
-      description: post.description || '',
+      description: post.description || 'Description',
       type: post.type || 'news',
       isPublished: false,
       createdAt: Timestamp.now(),

@@ -23,6 +23,7 @@ export default function PostCard({ post, i }: { post: Post; i: number }) {
 
     setFilter(type)
   }
+
   return (
     <div className='relative h-[500px] lg:first:col-span-2 rounded-3xl bg-transparent hover:shadow-lg transition'>
       <Link href={`/p/${post.id}`}>
@@ -34,9 +35,9 @@ export default function PostCard({ post, i }: { post: Post; i: number }) {
               : 'https://cdn.neowin.com/news/images/uploaded/2023/06/1686923675_dev-home-wallpapers.jpg'
           }
           fill
-          objectFit='cover'
-          className='rounded-3xl z-0 border-slate-400 border-[1px]'
-          loading='lazy'
+          className='rounded-3xl z-0 border-slate-400 border-[1px] object-cover'
+          loading={i === 0 ? 'eager' : 'lazy'}
+          priority={i === 0}
         />
         <div className='z-10 absolute left-5 bottom-5 max-w-[calc(100%-40px)]'>
           {i === 0 && (
@@ -52,9 +53,7 @@ export default function PostCard({ post, i }: { post: Post; i: number }) {
           >
             <p className='text-2xl font-semibold mt-2'>{post.title}</p>
             <p className='text-current opacity-80 mt-3 line-clamp-3'>
-              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Qui
-              aliquam recusandae necessitatibus culpa nisi a temporibus ut
-              architecto velit harum?
+              {post.description}
             </p>
           </div>
           <div className='px-4 relative pb-3 pt-1 bg-secondary rounded-b-3xl w-fit flex items-center max-w-[calc(100%-40px)] after:absolute after:right-0 after:h-1/2 after:bg-transparent after:block after:w-4 after:top-0 after:translate-x-4 after:translate-y-[-10px] after:rounded-ss-3xl after:border-t-[10px] after:border-l-[10px] after:border-accent after:box-content'>
