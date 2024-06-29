@@ -17,7 +17,13 @@ export const Hero = () => {
           </h2>
         </div>
         <div className='relative h-[200px] w-[200px] sm:h-[300px] sm:w-[500px]'>
-          <Image src='/hero.svg' alt='Hello World code' fill />
+          <Image
+            src='/hero.svg'
+            alt='Hello World code'
+            fill
+            priority
+            loading='eager'
+          />
         </div>
       </div>
       <div className='flex justify-between items-center md:flex-row-reverse flex-col-reverse gap-4 w-full px-6 lg:px-12 mt-8 md:mt-0 max-w-[calc(100vw-3rem)]'>
