@@ -16,7 +16,9 @@ import { Button } from '@/components/ui/button'
 import Cover from './_components/Cover'
 import Toolbar from './_components/Toolbar'
 
-const Editor = dynamic(() => import('./_components/Editor'), { ssr: false })
+const Editor = dynamic(() => import('./_components/Editor/Editor'), {
+  ssr: false,
+})
 
 const Page = () => {
   const { postId } = useParams()
@@ -62,7 +64,7 @@ const Page = () => {
     )
 
   return (
-    <div className='lg:max-w-7xl mx-auto pt-4 pb-10 px-6 lg:px-10'>
+    <div className='lg:max-w-7xl mx-auto pt-4 pb-10 px-3 lg:px-10'>
       {isAdmin && (
         <Button onClick={togglePublish} className='text-md md:text-lg w-full'>
           {post.isPublished ? 'Unpublish' : 'Publish'}

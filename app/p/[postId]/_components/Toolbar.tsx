@@ -102,12 +102,12 @@ const Toolbar = ({ initialData, postId }: ToolbarProps) => {
           onKeyDown={onKeyDown}
           onChange={(e) => setTitle(e.target.value)}
           value={title}
-          className='text-4xl md:text-5xl bg-transparent font-bold break-words outline-none resize-none m-4 md:m-6'
+          className='text-3xl sm:text-4xl md:text-5xl bg-transparent font-bold break-words outline-none resize-none m-4 md:m-6'
         />
       ) : (
         <h1
           onClick={enableTitle}
-          className='text-4xl md:text-5xl font-bold m-4 md:m-6'
+          className='text-3xl sm:text-4xl md:text-5xl font-bold m-4 md:m-6'
         >
           {title}
         </h1>

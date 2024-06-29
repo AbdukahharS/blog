@@ -37,7 +37,7 @@ export default function Posts() {
           </p>
         </div>
       ) : (
-        <div className='p-10 max-w-[1600px] w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10'>
+        <div className='py-10 px-4 md:px-10 max-w-[1600px] w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10'>
           {loading ? (
             <>
               <PostCard.Skeleton />

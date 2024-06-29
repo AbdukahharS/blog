@@ -43,7 +43,7 @@ export function Header() {
       <header className='z-50 bg-background fixed top-0 w-full px-6'>
         <div
           className={cn(
-            'py-6 flex items-center border-b-4 lg:max-w-7xl mx-auto',
+            'py-2 md:py-6 flex items-center border-b-4 lg:max-w-7xl mx-auto',
             scrolled && ' shadow-sm'
           )}
         >

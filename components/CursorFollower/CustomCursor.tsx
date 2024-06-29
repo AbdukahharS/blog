@@ -2,11 +2,22 @@
 
 import React, { useEffect, useState } from 'react'
 import styles from './CustomCursor.module.css'
+import { cn } from '@/lib/utils'
 
 const CustomCursor: React.FC = () => {
   const [p, setP] = useState({ x: -30, y: -30 })
   const [visible, setVisible] = useState(true)
   const [hovering, setHovering] = useState(false)
+  const [isTouch, setIsTouch] = useState(false)
+
+  useEffect(() => {
+    const userAgent = navigator.userAgent
+    const isTouchScreen =
+      /Mobile|Android|BlackBerry|IEMobile|Opera Mini|Tablet|iPad|PlayBook|Silk/i.test(
+        userAgent
+      )
+    setIsTouch(isTouchScreen)
+  }, [])
 
   useEffect(() => {
     const addEventListeners = () => {
@@ -40,6 +51,7 @@ const CustomCursor: React.FC = () => {
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
       const target = e.target as HTMLElement
+
       setHovering(target && getComputedStyle(target).cursor === 'pointer')
     }
 
@@ -49,9 +61,12 @@ const CustomCursor: React.FC = () => {
 
   return (
     <div
-      className={`${styles.cursor} ${visible ? styles.visible : ''} ${
-        hovering ? styles.hovering : ''
-      }`}
+      className={cn(
+        styles.cursor,
+        isTouch && styles.notVisible,
+        visible && styles.visible,
+        hovering && styles.hovering
+      )}
       style={{
         transform: `translate3d(calc(${p.x}px - 50%), calc(${p.y}px - 50%), 0)`,
       }}

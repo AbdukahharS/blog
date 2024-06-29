@@ -1,4 +1,4 @@
-import type { Metadata } from 'next'
+import type { Metadata, Viewport } from 'next'
 import { Inter } from 'next/font/google'
 import { Toaster } from '@/components/ui/toaster'
 
@@ -18,6 +18,11 @@ export const metadata: Metadata = {
       url: '/favicon.ico',
     },
   },
+}
+
+export const viewport: Viewport = {
+  initialScale: 1,
+  width: 'device-width',
 }
 
 export default async function RootLayout({

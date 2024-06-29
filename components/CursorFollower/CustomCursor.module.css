@@ -4,7 +4,6 @@
     left: 0;
     width: 15px;
     height: 15px;
-    /* background-color: #8419d4; */
     background: hsl(var(--primary));
     border-radius: 50%;
     pointer-events: none;
@@ -12,10 +11,15 @@
     z-index: 1000;
     will-change: transform;
     transform: translate3d(0, 0, 0);
+    opacity: 0;
   }
   
   .visible {
     opacity: 1;
+  }
+
+  .notVisible {
+    display: none;
   }
   
   .hovering {

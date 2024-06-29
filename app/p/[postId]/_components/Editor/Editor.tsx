@@ -5,8 +5,10 @@ import { useCreateBlockNote } from '@blocknote/react'
 import { BlockNoteView } from '@blocknote/shadcn'
 import { useTheme } from 'next-themes'
 
-import '@blocknote/shadcn/style.css'
 import '@blocknote/core/fonts/inter.css'
+import '@blocknote/shadcn/style.css'
+
+import './styles.css'
 
 interface EditorProps {
   initialContent?: string
@@ -40,6 +42,7 @@ const Editor = ({
       editable={editable}
       onChange={handleChange}
       theme={resolvedTheme === 'dark' ? 'dark' : 'light'}
+      data-theming-css-demo
     />
   )
 }

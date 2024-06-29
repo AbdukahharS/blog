@@ -1,0 +1,5 @@
+.bn-container[data-theming-css-demo] {
+  .bn-editor {
+    @apply py-4 px-4 md:px-16 bg-accent dark:bg-accent/70 rounded-2xl;
+  }
+}
