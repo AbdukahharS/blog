@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react'
 import styles from './CustomCursor.module.css'
 
 const CustomCursor: React.FC = () => {
-  const [p, setP] = useState({ x: 0, y: 0 })
+  const [p, setP] = useState({ x: -30, y: -30 })
   const [visible, setVisible] = useState(true)
   const [hovering, setHovering] = useState(false)
 
