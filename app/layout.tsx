@@ -1,11 +1,14 @@
 import type { Metadata, Viewport } from 'next'
 import { Inter } from 'next/font/google'
-import { Toaster } from '@/components/ui/toaster'
+import { SpeedInsights } from '@vercel/speed-insights/next'
+import { Analytics } from '@vercel/analytics/react'
 
-import Header from '@/components/Header' // added
+import { Toaster } from '@/components/ui/toaster'
+import Header from '@/components/Header'
 import CustomCursor from '@/components/CursorFollower/CustomCursor'
-import './globals.css'
 import { ThemeProvider } from '@/providers/theme-provider'
+
+import './globals.css'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -33,6 +36,8 @@ export default async function RootLayout({
   return (
     <html lang='en'>
       <body className={inter.className}>
+        <SpeedInsights />
+        <Analytics />
         <ThemeProvider
           attribute='class'
           defaultTheme='system'
