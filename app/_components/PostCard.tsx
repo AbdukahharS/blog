@@ -60,15 +60,22 @@ export default function PostCard({ post, i }: { post: Post; i: number }) {
             <Button
               onClick={(e) => handleClick(post.type, e)}
               variant='outline'
-              className='rounded-xl'
+              className='hover:bg-background/30'
+              size='sm'
             >
               {post.type}
             </Button>
-            <span className='ml-3 text-sm'>
+            <span className='ml-3 text-sm hidden sm:inline'>
               {format(post.createdAt.toDate(), 'dd MMM yyyy')}
             </span>
+            <span className='ml-3 text-sm inline sm:hidden'>
+              {format(post.createdAt.toDate(), 'dd/mm/yy')}
+            </span>
             <Dot />
-            <span className='text-sm'>{post.readTime || 0} min read</span>
+            <span className='text-sm'>
+              {post.readTime || 0} min{' '}
+              <span className='hidden sm:inline'>read</span>
+            </span>
           </div>
         </div>
       </Link>
