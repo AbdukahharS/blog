@@ -1,6 +1,10 @@
+'use client'
+
 import Image from 'next/image'
+import { useParams } from 'next/navigation'
 
 const NotFound = () => {
+  const params = useParams()
   return (
     <div className='flex justify-center flex-col gap-8 md:gap-12 items-center h-[calc(100vh-92px)] px-12'>
       <Image
@@ -12,7 +16,7 @@ const NotFound = () => {
         priority
       />
       <h1 className='text-2xl text-center sm:text-4xl font-bold md:font-extrabold'>
-        This page does not exist
+        This {params.postId ? 'post' : 'page'} does not exist
       </h1>
     </div>
   )

@@ -41,7 +41,10 @@ const Page = () => {
   const [changed, setChanged] = useState(false)
   const [content, setContent] = useState<string>('')
 
-  if (!loading && notfound) notFound()
+  if (!loading && notfound) {
+    console.log('not found')
+    notFound()
+  }
 
   useEffect(() => {
     if (isAdmin) {

@@ -124,7 +124,11 @@ export const useGetPost = (postId: string) => {
       try {
         const docRef = doc(db, 'posts', postId)
         const docSnap = await getDoc(docRef)
-        setPost({ id: docSnap.id, ...docSnap.data() } as Post)
+        if (docSnap.exists()) {
+          setPost({ id: docSnap.id, ...docSnap.data() } as Post)
+        } else {
+          setNotFound(true)
+        }
       } catch (e) {
         setNotFound(true)
       }
