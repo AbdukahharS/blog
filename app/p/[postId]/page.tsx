@@ -67,7 +67,7 @@ const Page = () => {
         await incrementViews(incrementedArray)
       }
     }
-    if (!loading) {
+    if (!loading && !post.isPublished) {
       fun()
     }
   }, [loading])
