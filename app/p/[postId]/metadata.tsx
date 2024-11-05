@@ -6,13 +6,12 @@ import { db } from '@/lib/firebase/config'
 
 type Props = {
   params: Promise<{ postId: string }>
-  searchParams: Promise<{ [key: string]: string | string[] | undefined }>
 }
 
-export async function generateMetadata(
-  { params, searchParams }: Props,
+const generateMetadataFn = async (
+  { params }: Props,
   parent: ResolvingMetadata
-): Promise<Metadata> {
+): Promise<Metadata> => {
   // read route params
   const id = (await params).postId
   let post: Partial<Post> = {}
@@ -47,3 +46,5 @@ export async function generateMetadata(
     return (await parent) as Metadata
   }
 }
+
+export default generateMetadataFn
