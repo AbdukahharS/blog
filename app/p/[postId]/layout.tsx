@@ -31,9 +31,7 @@ export const generateMetadata = async (
   const previousImages = (await parent).openGraph?.images || []
 
   if (post) {
-    const images = post.banner
-      ? [{ url: post.banner.url }, ...previousImages]
-      : previousImages
+    const images = post.banner ? [{ url: post.banner.url }] : previousImages
     return {
       title: post.title,
       description: post.description,
