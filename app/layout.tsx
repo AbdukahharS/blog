@@ -20,6 +20,13 @@ export const metadata: Metadata = {
       url: '/favicon.ico',
     },
   },
+  openGraph: {
+    title: 'Shahzod Abdukahhar Blog',
+    description:
+      'Join Shahzod Abdukahhar as he delves into the world of web development. Explore in-depth articles, tutorials, and tips.',
+    siteName: 'Shahzod Abdukahhar Blog',
+    images: ['https://blog.abdukahhar.uz/open-graph.png'],
+  },
 }
 
 export const viewport: Viewport = {
