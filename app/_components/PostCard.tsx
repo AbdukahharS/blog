@@ -3,7 +3,7 @@
 import Image from 'next/image'
 import { format } from 'date-fns'
 import Link from 'next/link'
-import { Dot } from 'lucide-react'
+import { Dot, Eye } from 'lucide-react'
 
 import { Badge } from '@/components/ui/badge'
 import { Post, usePostsStore } from '@/hooks/use-posts-store'
@@ -72,10 +72,10 @@ export default function PostCard({ post, i }: { post: Post; i: number }) {
               {format(post.createdAt.toDate(), 'dd/mm/yy')}
             </span>
             <Dot />
-            <span className='text-sm'>
-              {post.readTime || 0} min{' '}
-              <span className='hidden sm:inline'>read</span>
-            </span>
+            <div className='text-sm flex flex-row items-center gap-1'>
+              <Eye size={16} />
+              {post.views || 0}
+            </div>
           </div>
         </div>
       </Link>

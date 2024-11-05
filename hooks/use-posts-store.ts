@@ -15,12 +15,12 @@ export interface Post {
   type: Filters
   isPublished: boolean
   createdAt: Timestamp
-  readTime: number
   banner: {
     name: string
     url: string
   } | null
   content: string
+  views: number
 }
 
 type PostsStoreType = {

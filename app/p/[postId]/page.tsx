@@ -3,8 +3,7 @@
 import { useEffect, useState } from 'react'
 import { notFound, useParams, useRouter } from 'next/navigation'
 import { format } from 'date-fns'
-import { Dot, Trash2 } from 'lucide-react'
-import readingTime from 'reading-time'
+import { Dot, Eye, Trash2 } from 'lucide-react'
 import dynamic from 'next/dynamic'
 
 import { useGetPost, useCreatePost } from '@/hooks/use-posts'
@@ -55,14 +54,56 @@ const Page = () => {
     }
   }, [isAdmin, loading])
 
-  const handeSave = async () => {
-    const { minutes } = readingTime(content)
+  useEffect(() => {
+    const fun = async () => {
+      const incrementedPosts = sessionStorage.getItem('views-incremented')
+      if (!incrementedPosts) return await incrementViews()
+      const incrementedArray = JSON.parse(incrementedPosts)
+      if (!Array.isArray(incrementedArray)) return await incrementViews()
+      const didIncrementViews = incrementedArray.find(
+        (post: string) => post === (postId as string)
+      )
+      if (!didIncrementViews) {
+        await incrementViews(incrementedArray)
+      }
+    }
+    if (!loading) {
+      fun()
+    }
+  }, [loading])
 
+  useEffect(() => {
+    const handleBeforeUnload = () => {
+      sessionStorage.clear()
+    }
+
+    // Add the event listener when the component mounts
+    window.addEventListener('beforeunload', handleBeforeUnload)
+
+    // Clean up the event listener on unmount
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload)
+    }
+  }, [])
+
+  const incrementViews = async (array: string[] = []) => {
+    const views = Number(post.views) ? post.views + 1 : 1
+    console.log(post.views, views)
+    await updatePost(postId as string, {
+      views,
+    })
+    post.views = views
+
+    sessionStorage.setItem(
+      'views-incremented',
+      JSON.stringify([...array, postId as string])
+    )
+  }
+
+  const handeSave = async () => {
     await updatePost(postId as string, {
       content,
-      readTime: Math.round(Number(minutes) * 2),
     })
-    post.readTime = Number(minutes) * 2
     setChanged(false)
   }
 
@@ -144,10 +185,9 @@ const Page = () => {
           </Button>
         )}
         <div className='opacity-70 flex gap-2 md:gap-3'>
-          <span>
-            {post.readTime || 0} min{' '}
-            <span className='hidden sm:inline'>read</span>
-          </span>
+          <div className='flex gap-2 flex-row items-center'>
+            <Eye size={18} /> {post.views}
+          </div>
           <Dot className='text-primary w-6 h-6' />
           <span>
             <span className='hidden sm:inline'>Written: </span>
