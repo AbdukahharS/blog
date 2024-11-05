@@ -31,8 +31,21 @@ export default function Posts() {
     <div className='bg-foreground/70 dark:bg-accent mt-10 rounded-t-[50px] flex justify-center flex-1 items-center'>
       {!loading && filteredPosts.length === 0 ? (
         <div>
-          <Image src='/no-items.svg' alt='No items' width={300} height={300} />
-          <p className='text-center text-6xl font-semibold text-foreground/80'>
+          <Image
+            src='/no-items.svg'
+            alt='No items'
+            width={300}
+            height={300}
+            className='dark:hidden'
+          />
+          <Image
+            src='/no-items-dark.svg'
+            alt='No items'
+            width={300}
+            height={300}
+            className='hidden dark:block'
+          />
+          <p className='text-center text-6xl font-semibold text-white dark:text-foreground/80'>
             No items
           </p>
         </div>

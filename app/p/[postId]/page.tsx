@@ -1,9 +1,9 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { notFound, useParams } from 'next/navigation'
+import { notFound, useParams, useRouter } from 'next/navigation'
 import { format } from 'date-fns'
-import { Dot } from 'lucide-react'
+import { Dot, Trash2 } from 'lucide-react'
 import readingTime from 'reading-time'
 import dynamic from 'next/dynamic'
 
@@ -15,16 +15,28 @@ import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import Cover from './_components/Cover'
 import Toolbar from './_components/Toolbar'
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog'
+import { toast } from '@/components/ui/use-toast'
 
 const Editor = dynamic(() => import('./_components/Editor/Editor'), {
   ssr: false,
 })
 
 const Page = () => {
+  const router = useRouter()
   const { postId } = useParams()
   const { isAdmin } = useUser()
   const { post, loading, notfound } = useGetPost(postId as string)
-  const { loading: updateLoad, updatePost } = useCreatePost()
+  const { loading: updateLoad, updatePost, deletePost } = useCreatePost()
 
   const [changed, setChanged] = useState(false)
   const [content, setContent] = useState<string>('')
@@ -45,15 +57,21 @@ const Page = () => {
 
     await updatePost(postId as string, {
       content,
-      readTime: Math.round(Number(minutes)),
+      readTime: Math.round(Number(minutes) * 2),
     })
-    post.readTime = Number(minutes)
+    post.readTime = Number(minutes) * 2
     setChanged(false)
   }
 
   const togglePublish = async () => {
     await updatePost(postId as string, { isPublished: !post.isPublished })
     post.isPublished = !post.isPublished
+  }
+
+  const onDelete = async () => {
+    await deletePost(postId as string)
+    toast({ title: 'Post deleted' })
+    router.push('/')
   }
 
   if (loading)
@@ -66,9 +84,42 @@ const Page = () => {
   return (
     <div className='lg:max-w-7xl mx-auto pt-4 pb-10 px-3 lg:px-10'>
       {isAdmin && (
-        <Button onClick={togglePublish} className='text-md md:text-lg w-full'>
-          {post.isPublished ? 'Unpublish' : 'Publish'}
-        </Button>
+        <div className='flex gap-4'>
+          <Button onClick={togglePublish} className='text-md md:text-lg'>
+            {post.isPublished ? 'Unpublish' : 'Publish'}
+          </Button>
+          <Dialog>
+            <Button
+              asChild
+              variant='destructive'
+              className='text-md md:text-lg'
+            >
+              <DialogTrigger>
+                <Trash2 className='w-5 h-5 mr-2' /> Delete
+              </DialogTrigger>
+            </Button>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Are you absolutely sure?</DialogTitle>
+                <DialogDescription>
+                  This action cannot be undone. This will permanently delete
+                  your account and remove your data from our servers.
+                </DialogDescription>
+              </DialogHeader>
+              <DialogFooter>
+                <DialogClose asChild>
+                  <Button
+                    variant='destructive'
+                    onClick={onDelete}
+                    className='text-md md:text-lg'
+                  >
+                    Delete anyway
+                  </Button>
+                </DialogClose>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
+        </div>
       )}
       <Cover cover={post.banner} />
       <Toolbar initialData={post} postId={postId as string} />

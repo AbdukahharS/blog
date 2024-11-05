@@ -10,6 +10,7 @@ import {
   addDoc,
   Timestamp,
   updateDoc,
+  deleteDoc,
 } from 'firebase/firestore'
 
 import useStorage from '@/hooks/use-storage'
@@ -211,5 +212,23 @@ export const useCreatePost = () => {
     return !!banner.name && !!banner.url ? banner : null
   }
 
-  return { createPost, loading, updatePost }
+  const deletePost = async (postId: string) => {
+    setLoading(true)
+
+    try {
+      const postRef = doc(db, 'posts', postId)
+      const postDoc = await getDoc(postRef)
+      const bannerName = postDoc.data()?.banner?.name
+      if (!!bannerName) {
+        await deleteFile(`banner/${bannerName}`)
+      }
+      await deleteDoc(postRef)
+    } catch (error) {
+      console.log(error)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  return { createPost, loading, updatePost, deletePost }
 }
