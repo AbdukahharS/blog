@@ -8,7 +8,7 @@ type Props = {
   params: Promise<{ postId: string }>
 }
 
-const generateMetadataFn = async (
+export const generateMetadata = async (
   { params }: Props,
   parent: ResolvingMetadata
 ): Promise<Metadata> => {
@@ -47,4 +47,10 @@ const generateMetadataFn = async (
   }
 }
 
-export default generateMetadataFn
+export default async function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode
+}>) {
+  return <>{children}</>
+}

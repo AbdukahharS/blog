@@ -1,6 +1,5 @@
 'use client'
 
-import { Metadata, ResolvingMetadata } from 'next'
 import { useEffect, useState } from 'react'
 import { notFound, useParams, useRouter } from 'next/navigation'
 import { format } from 'date-fns'
@@ -26,23 +25,10 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog'
 import { toast } from '@/components/ui/use-toast'
-import generateMetadataFn from './metadata'
 
 const Editor = dynamic(() => import('./_components/Editor/Editor'), {
   ssr: false,
 })
-
-type Props = {
-  params: Promise<{ postId: string }>
-}
-
-export async function generateMetadata(
-  { params }: Props,
-  parent: ResolvingMetadata
-): Promise<Metadata> {
-  const data = await generateMetadataFn({ params }, parent)
-  return data
-}
 
 const Page = () => {
   const router = useRouter()
