@@ -35,6 +35,7 @@ export const generateMetadata = async (
     return {
       title: post.title,
       description: post.description,
+      robots: 'index, follow',
       openGraph: {
         title: post.title,
         description: post.description,

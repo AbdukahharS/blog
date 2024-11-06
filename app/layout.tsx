@@ -15,11 +15,8 @@ export const metadata: Metadata = {
   title: 'Shahzod Abdukahhar Blog',
   description:
     'Join Shahzod Abdukahhar as he delves into the world of web development. Explore in-depth articles, tutorials, and tips.',
-  icons: {
-    icon: {
-      url: 'https://blog.abdukahhar.uz/favicon.ico',
-    },
-  },
+  icons: [{ rel: 'icon', url: 'https://blog.abdukahhar.uz/favicon.ico' }],
+  robots: 'index, follow',
   openGraph: {
     title: 'Shahzod Abdukahhar Blog',
     description:
