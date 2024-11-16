@@ -12,13 +12,13 @@ import './globals.css'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'Shahzod Abdukahhar Blog',
+  title: "Shahzod's Blog",
   description:
     'Join Shahzod Abdukahhar as he delves into the world of web development. Explore in-depth articles, tutorials, and tips.',
   icons: [{ rel: 'icon', url: 'https://blog.abdukahhar.uz/favicon.ico' }],
   robots: 'index, follow',
   openGraph: {
-    title: 'Shahzod Abdukahhar Blog',
+    title: "Shahzod's Blog",
     description:
       'Join Shahzod Abdukahhar as he delves into the world of web development. Explore in-depth articles, tutorials, and tips.',
     siteName: 'Shahzod Abdukahhar Blog',
