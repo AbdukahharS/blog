@@ -236,3 +236,49 @@ export const useCreatePost = () => {
 
   return { createPost, loading, updatePost, deletePost }
 }
+
+type Comment = {
+  id: string
+  postId: string
+  author: {
+    id: string
+    name: string
+  }
+  content: string
+  createdAt: Timestamp
+}
+
+export const useGetPostComments = (postId: string) => {
+  const [comments, setComments] = useState<Comment[]>([])
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    const getComments = async () => {
+      setLoading(true)
+      const q = query(
+        collection(db, 'comments'),
+        where('postId', '==', postId),
+        orderBy('createdAt', 'desc')
+      )
+
+      const querySnapshot = await getDocs(q)
+      const commentsArray: Comment[] = []
+      querySnapshot.forEach((doc) => {
+        const data = doc.data()
+        commentsArray.push({
+          id: doc.id,
+          postId: data.postId,
+          author: data.author,
+          content: data.content,
+          createdAt: data.createdAt,
+        } as Comment)
+      })
+      setComments(commentsArray)
+      setLoading(false)
+    }
+
+    getComments()
+  }, [postId])
+
+  return { comments, loading }
+}

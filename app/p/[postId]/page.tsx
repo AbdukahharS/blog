@@ -25,6 +25,7 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog'
 import { toast } from '@/components/ui/use-toast'
+import Comments from './_components/Comments'
 
 const Editor = dynamic(() => import('./_components/Editor/Editor'), {
   ssr: false,
@@ -88,7 +89,6 @@ const Page = () => {
 
   const incrementViews = async (array: string[] = []) => {
     const views = Number(post.views) ? post.views + 1 : 1
-    console.log(post.views, views)
     await updatePost(postId as string, {
       views,
     })
@@ -201,6 +201,7 @@ const Page = () => {
         editable={isAdmin && !updateLoad}
         setContent={setContent}
       />
+      <Comments />
     </div>
   )
 }

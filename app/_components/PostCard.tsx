@@ -39,7 +39,7 @@ export default function PostCard({ post, i }: { post: Post; i: number }) {
           loading={i === 0 ? 'eager' : 'lazy'}
           priority={i === 0}
         />
-        <div className='z-10 absolute left-5 bottom-5 max-w-[calc(100%-40px)]'>
+        <div className='z-10 absolute left-2 bottom-2 sm:left-5 sm:bottom-5 max-w-[calc(100%-1rem)] sm:max-w-[calc(100%-40px)]'>
           {i === 0 && (
             <div className='px-4 relative pt-3 pb-1 rounded-t-3xl bg-secondary w-fit after:absolute after:right-0 after:h-1/2 after:bg-transparent after:block after:w-4 after:bottom-0 after:translate-x-4 after:translate-y-[10px] after:rounded-es-3xl after:border-b-[10px] after:border-l-[10px] after:border-accent after:box-content'>
               <Badge>Latest</Badge>

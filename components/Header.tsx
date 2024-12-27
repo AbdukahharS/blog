@@ -14,6 +14,7 @@ import { Spinner } from '@/components/Spinner'
 import { AvatarMenu } from '@/components/AvatarMenu'
 import { Logo } from '@/components/Logo'
 import { useCreatePost } from '@/hooks/use-posts'
+import { toast } from '@/components/ui/use-toast'
 
 export function Header() {
   const scrolled = useScrollTop()
@@ -27,9 +28,7 @@ export function Header() {
     try {
       router.push(`/p/${id}`)
     } catch (error) {
-      console.log(error)
-
-      console.error(error)
+      toast({ title: 'Something went wrong :(' })
     }
   }
 
